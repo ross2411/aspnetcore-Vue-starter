@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Vue2Spa
 {
@@ -30,6 +31,11 @@ namespace Vue2Spa
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v0.1", new Info { Title = "Vue2SPA API", Version = "v0.1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +51,7 @@ namespace Vue2Spa
                 {
                     HotModuleReplacement = true
                 });
+
             }
             else
             {
@@ -52,6 +59,15 @@ namespace Vue2Spa
             }
 
             app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v0.1/swagger.json", "Vue2SPA Api V0.1");
+            });
 
             app.UseMvc(routes =>
             {

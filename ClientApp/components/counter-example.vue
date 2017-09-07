@@ -27,29 +27,29 @@
   },
 
   computed: {
-  ...mapState({
-  currentCount: state => state.counter
-  })
+    ...mapState({
+      currentCount: state => state.counter
+    })
   },
 
   methods: {
   ...mapActions(['setCounter']),
 
   incrementCounter: function() {
-  var counter = this.currentCount + 1;
-  this.setCounter({counter: counter});
+    var counter = this.currentCount + 1;
+    this.setCounter({counter: counter});
   },
   resetCounter: function() {
-  this.setCounter({counter: 0});
-  this.autoCount = 0;
-  }
+    this.setCounter({counter: 0});
+    this.autoCount = 0;
+    }
   },
 
   created() {
-  setInterval(() => {
-  this.autoCount += 1
-  }, 1000)
-  }
+    setInterval(() => {
+      this.autoCount += 1
+      }, 1000)
+    }
   }
 </script>
 

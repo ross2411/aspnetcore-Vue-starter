@@ -3,7 +3,7 @@
         <h1>Weather forecast</h1>
 
         <p>This component demonstrates fetching data from the server.</p>
-
+        <p>Today is looking {{todaysWeather.summary}}</p>
         <p v-if="!forecasts"><em>Loading...</em></p>
 
         <table class="table" v-if="forecasts">
@@ -23,6 +23,7 @@
                     <td>{{ forecast.summary }}</td>
                 </tr>
             </tbody>
+
         </table>
         
 
@@ -33,11 +34,23 @@
 export default {
     data() {
         return {
-            forecasts: null
+            forecasts: null,
+            todaysWeather: {
+                summary:null
+            },
         }
     },
 
     methods: {
+        getTodaysWeather: async function(){
+            try{
+                let response = await this.$http.get('/api/SampleData/GetTodaysWeatherForecast');
+                console.log(response.data);
+                this.todaysWeather = response.data;
+            }catch(error){
+                console.log(error);
+            }
+        }
     },
 
     async created() {
@@ -50,6 +63,7 @@ export default {
         } catch (error) {
             console.log(error)
         }
+        this.getTodaysWeather();
         // Old promise-based approach
         //this.$http
         //    .get('/api/SampleData/WeatherForecasts')
